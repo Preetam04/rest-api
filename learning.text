@@ -1,0 +1,6 @@
+so the industry flow is like this
+request reach server
+    1. it goes to router where it is routed to the appropriate controller
+    2. controller  extracts data from req and gives it to the services 
+    3. services performs BLL(validation, and whatever logic) and if all good gives the data to repository
+    4. repository interacts with the database to do the CRUD 

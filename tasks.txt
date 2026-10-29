@@ -1,0 +1,5 @@
+1. structure the files and routes
+2. setup the db, also explore db pooling
+3. authentication and authorization with appropriate stratergy
+4.  crud operations
+5. input validations using zod
