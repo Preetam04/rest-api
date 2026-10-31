@@ -38,6 +38,14 @@ model Task{
   updatedAt   DateTime @updatedAt
 }
 
+model Session {
+  sid String @id
+  data Json
+  expiresAt DateTime
+
+  @@index([expiresAt])
+}
+
 enum Status {
   PENDING @map("pending")
   IN_PROGRESS @map("in-progress")
