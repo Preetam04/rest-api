@@ -8,6 +8,7 @@ import session from "express-session";
 import authRouter from "./routes/auth.routes";
 import taskRouter from "./routes/task.routes";
 import { errorMiddleware } from "./middlewares/error.middleware";
+import { PrismaSessionStore } from "./utils/session-store";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 
 app.use(
   session({
+    store: new PrismaSessionStore(),
     name: "sid", // cookie name
     secret: process.env.SESSION_SECRET || "change-me-in-production",
     resave: false, // don't save unchanged sessions

@@ -8,6 +8,7 @@
         "@prisma/adapter-pg": "^7.10.1",
         "@prisma/client": "7",
         "bcrypt": "^6.0.0",
+        "connect-pg-simple": "^10.0.0",
         "cookie-parser": "^1.4.7",
         "cors": "^2.8.6",
         "dotenv": "^18.0.9",
@@ -229,6 +230,8 @@
     "classnames": ["classnames@2.5.1", "", {}, "sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow=="],
 
     "confbox": ["confbox@0.2.4", "", {}, "sha512-ysOGlgTFbN2/Y6Cg3Iye8YKulHw+R2fNXHrgSmXISQdMnomY6eNDprVdW9R5xBguEqI954+S6709UyiO7B+6OQ=="],
+
+    "connect-pg-simple": ["connect-pg-simple@10.0.0", "", { "dependencies": { "pg": "^8.12.0" } }, "sha512-pBGVazlqiMrackzCr0eKhn4LO5trJXsOX0nQoey9wCOayh80MYtThCbq8eoLsjpiWgiok/h+1/uti9/2/Una8A=="],
 
     "content-disposition": ["content-disposition@2.0.1", "", {}, "sha512-e+H0ZXHSWYrENhQzw1LPuP4oF5MzVKmDU6d3hxlvaPEYLLg62MxtQNPRx4SYSuYJSBUgnQIG4HIN2tEtNv7Dog=="],
 

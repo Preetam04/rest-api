@@ -19,4 +19,24 @@ async function createUser(username: string, email: string, password: string) {
   return user;
 }
 
-export { createUser };
+async function userExists(email: string, password: string) {
+  const data = { email, password, username: "" };
+
+  if (userSchema.safeParse(data).error) {
+    const message = userSchema.safeParse(data).error?.message;
+    console.log(message);
+    throw new AppError("Data not valid", 400);
+  }
+
+  const user = await UserRepository.findUser(email);
+
+  const userValid = user && (await bcrypt.compare(password, user.password));
+
+  if (!userValid) {
+    throw new AppError("Invalid credentials", 401);
+  }
+
+  return user;
+}
+
+export { createUser, userExists };

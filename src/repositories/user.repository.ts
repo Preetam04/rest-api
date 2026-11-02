@@ -30,4 +30,20 @@ async function createUser(username: string, email: string, password: string) {
   return createdUser;
 }
 
-export { createUser };
+async function findUser(email: string) {
+  console.log(email);
+
+  const user = await prisma.user.findFirst({
+    where: {
+      email,
+    },
+  });
+
+  if (!user) {
+    throw new AppError("User does not exists", 404);
+  }
+
+  return user;
+}
+
+export { createUser, findUser };
