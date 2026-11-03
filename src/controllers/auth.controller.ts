@@ -32,20 +32,48 @@ export async function signIn(req: Request, res: Response, next: NextFunction) {
       }
 
       req.session.userId = user.id;
-    });
 
-    res.status(200).send({
-      message: "User logged in Successfully",
-      statusCode: 201,
-      success: true,
+      req.session.save((err) => {
+        if (err) {
+          console.log(`[save err] : ${err}`);
+
+          throw new AppError("Session error", 500);
+        } else {
+          res.status(200).send({
+            message: "User logged in Successfully",
+            statusCode: 201,
+            success: true,
+          });
+        }
+      });
     });
   } catch (error) {
     next(error);
   }
 }
 
+export async function me(req: Request, res: Response, next: NextFunction) {
+  try {
+    res.status(200).json({
+      user: req.user,
+      success: true,
+      statusCode: 200,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function signOut(req: Request, res: Response, next: NextFunction) {
   try {
+    req.session.destroy(() => {
+      res.clearCookie("sid");
+      res.status(200).json({
+        message: "User logged out successfully",
+        status: 200,
+        success: true,
+      });
+    });
   } catch (error) {
     next(error);
   }

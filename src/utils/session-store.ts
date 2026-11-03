@@ -30,9 +30,9 @@ export class PrismaSessionStore extends Store {
   ): void {
     const data = JSON.parse(JSON.stringify(session));
     const expiresAt = this.getExpiry(session);
-    console.log("[store] get", sid);
+    // console.log("[store] get", sid);
 
-    console.log(data);
+    // console.log(data);
 
     prisma.session
       .upsert({
