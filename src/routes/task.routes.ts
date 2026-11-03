@@ -6,13 +6,15 @@ import {
   getTask,
   updateTask,
 } from "../controllers/task.controller";
+import { authMiddleware } from "../middlewares/auth.middleware";
 
 const router = Router();
 
-router.route("/create-task").post(createTask);
-router.route("/get-task").get(getAllTask);
-router.route("/get-task/:id").get(getTask);
-router.route("/update-task/:id").patch(updateTask);
-router.route("/delete-task/:id").delete(deleteTask);
+router.use(authMiddleware);
+router.route("/create").post(createTask);
+router.route("/get").get(getAllTask);
+router.route("/get/:id").get(getTask);
+router.route("/update/:id").patch(updateTask);
+router.route("/delete/:id").delete(deleteTask);
 
 export default router;
