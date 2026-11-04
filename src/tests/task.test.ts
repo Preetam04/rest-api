@@ -8,149 +8,150 @@ import app from "../index";
 
 const agent = request.agent(app);
 
-// describe("POST /api/v1/task/create", () => {
-//   // create task successully
-//   // reject if data is invalid
-//   //   should not create task  if not signed in
-//   before(async () => {
-//     await agent.post("/api/v1/auth/sign-in").send({
-//       email: "Preetam12@gmail.com",
-//       password: "Preetam1211",
-//     });
-//   });
+describe("POST /api/v1/task/create", () => {
+  // create task successully
+  // reject if data is invalid
+  //   should not create task  if not signed in
+  before(async () => {
+    await agent.post("/api/v1/auth/sign-in").send({
+      email: "Preetam12@gmail.com",
+      password: "Preetam1211",
+    });
+  });
 
-//   it("It should not create task  if not signed in", async () => {
+  it("It should not create task  if not signed in", async () => {
+    const response = await request(app)
+      .post("/api/v1/task/create")
+      .send({
+        title: "",
+        description: "anyting",
+      } as Task);
 
-//     const response = await request(app).post("/api/v1/task/create").send({
-//       title: "",
-//       description: "anyting",
-//     } as Task);
+    assert.equal(response.status, 401);
+  });
 
-//     assert.equal(response.status, 401);
-//   });
+  it("It should not create task  if data not Valid", async () => {
+    await agent.post("/api/v1/auth/sign-in").send({
+      email: "Preetam12@gmail.com",
+      password: "Preetam1211",
+    });
 
-//   it("It should not create task  if data not Valid", async () => {
-//     await agent.post("/api/v1/auth/sign-in").send({
-//       email: "Preetam12@gmail.com",
-//       password: "Preetam1211",
-//     });
+    const response = await agent.post("/api/v1/task/create").send({
+      title: "",
+      description: "anyting",
+    } as Task);
 
-//     const response = await agent.post("/api/v1/task/create").send({
-//       title: "",
-//       description: "anyting",
-//     } as Task);
+    assert.equal(response.status, 400);
+  });
 
-//     assert.equal(response.status, 400);
-//   });
+  it("It creates the Task if Data is Valid", async () => {
+    await agent.post("/api/v1/auth/sign-in").send({
+      email: "Preetam12@gmail.com",
+      password: "Preetam1211",
+    });
 
-//   it("It creates the Task if Data is Valid", async () => {
-//     await agent.post("/api/v1/auth/sign-in").send({
-//       email: "Preetam12@gmail.com",
-//       password: "Preetam1211",
-//     });
+    const response = await agent.post("/api/v1/task/create").send({
+      title: "Play a game",
+      description: "",
+    } as Task);
 
-//     const response = await agent.post("/api/v1/task/create").send({
-//       title: "Play a game",
-//       description: "",
-//     } as Task);
+    assert.equal(response.status, 201);
+  });
+});
 
-//     assert.equal(response.status, 201);
-//   });
-// });
+describe("GET /api/v1/task", () => {
+  // create task successully
+  // reject if data is invalid
+  //   should not create task  if not signed in
 
-// describe("GET /api/v1/task", () => {
-//   // create task successully
-//   // reject if data is invalid
-//   //   should not create task  if not signed in
+  before(async () => {
+    await agent.post("/api/v1/auth/sign-in").send({
+      email: "Preetam12@gmail.com",
+      password: "Preetam1211",
+    });
+  });
 
-//   before(async () => {
-//     await agent.post("/api/v1/auth/sign-in").send({
-//       email: "Preetam12@gmail.com",
-//       password: "Preetam1211",
-//     });
-//   });
+  it("It should not get Task if not logged in", async () => {
+    const response = await request(app).get("/api/v1/task/get");
 
-//   it("It should not get Task if not logged in", async () => {
-//     const response = await request(app).get("/api/v1/task/get");
+    assert.equal(response.status, 401);
+  });
 
-//     assert.equal(response.status, 401);
-//   });
+  it("It should get Task if logged in", async () => {
+    const response = await agent.get("/api/v1/task/get");
 
-//   it("It should get Task if logged in", async () => {
-//     const response = await agent.get("/api/v1/task/get");
+    assert.equal(response.status, 200);
+  });
+});
 
-//     assert.equal(response.status, 200);
-//   });
-// });
+describe("GET /api/v1/task/:id", () => {
+  // create task successully
+  // reject if data is invalid
+  //   should not create task  if not signed in
 
-// describe("GET /api/v1/task/:id", () => {
-//   // create task successully
-//   // reject if data is invalid
-//   //   should not create task  if not signed in
+  before(async () => {
+    await agent.post("/api/v1/auth/sign-in").send({
+      email: "Preetam12@gmail.com",
+      password: "Preetam1211",
+    });
+  });
 
-//   before(async () => {
-//     await agent.post("/api/v1/auth/sign-in").send({
-//       email: "Preetam12@gmail.com",
-//       password: "Preetam1211",
-//     });
-//   });
+  it("It should not get Task by id if not logged in", async () => {
+    const response = await request(app).get(
+      "/api/v1/task/get/19932cfc-8219-4fb1-9043-158306eaf244",
+    );
 
-//   it("It should not get Task by id if not logged in", async () => {
-//     const response = await request(app).get(
-//       "/api/v1/task/get/19932cfc-8219-4fb1-9043-158306eaf244",
-//     );
+    assert.equal(response.status, 401);
+  });
 
-//     assert.equal(response.status, 401);
-//   });
+  it("It should get Task by id if logged in", async () => {
+    const response = await agent.get(
+      "/api/v1/task/get/8c7f8cc6-8f1f-43d9-8f5e-33760c14cadc",
+    );
 
-//   it("It should get Task by id if logged in", async () => {
-//     const response = await agent.get(
-//       "/api/v1/task/get/19932cfc-8219-4fb1-9043-158306eaf244",
-//     );
+    assert.equal(response.status, 200);
+  });
+});
 
-//     assert.equal(response.status, 200);
-//   });
-// });
+describe("DELETE /api/v1/task/delete/:id", () => {
+  // create task successully
+  // reject if data is invalid
+  //   should not create task  if not signed in
 
-// describe("DELETE /api/v1/task/delete/:id", () => {
-//   // create task successully
-//   // reject if data is invalid
-//   //   should not create task  if not signed in
+  before(async () => {
+    await agent.post("/api/v1/auth/sign-in").send({
+      email: "Preetam12@gmail.com",
+      password: "Preetam1211",
+    });
+  });
 
-//   before(async () => {
-//     await agent.post("/api/v1/auth/sign-in").send({
-//       email: "Preetam12@gmail.com",
-//       password: "Preetam1211",
-//     });
-//   });
+  //   Cannot delete the task if not logged in
+  it("It should not create task  if not signed in", async () => {
+    const response = await request(app).delete(
+      "/api/v1/task/delete/a7ca0774-4261-4b1b-8668-e2a10a2fc2aa",
+    );
 
-//   //   Cannot delete the task if not logged in
-//   it("It should not create task  if not signed in", async () => {
-//     const response = await request(app).delete(
-//       "/api/v1/task/delete/a7ca0774-4261-4b1b-8668-e2a10a2fc2aa",
-//     );
+    assert.equal(response.status, 401);
+  });
 
-//     assert.equal(response.status, 401);
-//   });
+  // cannot delete task that doesnt exist
+  it("It cannot delete task that doesnt exist", async () => {
+    const response = await agent.delete(
+      "/api/v1/task/delete/a7ca0774-4261-4b1b-8668-e2a10a2fc2a3",
+    );
 
-//   // cannot delete task that doesnt exist
-//   it("It cannot delete task that doesnt exist", async () => {
-//     const response = await agent.delete(
-//       "/api/v1/task/delete/a7ca0774-4261-4b1b-8668-e2a10a2fc2a3",
-//     );
+    assert.equal(response.status, 404);
+  });
 
-//     assert.equal(response.status, 404);
-//   });
+  //   delete task successfully
+  it("It deletes the task successfully", async () => {
+    const response = await agent.delete(
+      "/api/v1/task/delete/d38852b2-6d83-4037-a179-e696dac93938",
+    );
 
-//   //   delete task successfully
-//   it("It deletes the task successfully", async () => {
-//     const response = await agent.delete(
-//       "/api/v1/task/delete/19932cfc-8219-4fb1-9043-158306eaf244",
-//     );
-
-//     assert.equal(response.status, 200);
-//   });
-// });
+    assert.equal(response.status, 200);
+  });
+});
 
 describe("UPDATE /api/v1/task/update/:id", () => {
   before(async () => {
@@ -204,8 +205,6 @@ describe("UPDATE /api/v1/task/update/:id", () => {
         description: "lorem ipsum",
         status: "IN_PROGRESS",
       } as Task);
-
-    console.log(response.body);
 
     assert.equal(response.status, 200);
   });
