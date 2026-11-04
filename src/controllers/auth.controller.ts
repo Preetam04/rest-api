@@ -7,6 +7,8 @@ export async function signUp(req: Request, res: Response, next: NextFunction) {
   try {
     const { username, email, password } = req.body;
 
+    console.log("Req reached");
+
     const user = await UserServices.createUser(username, email, password);
 
     // console.log(user);

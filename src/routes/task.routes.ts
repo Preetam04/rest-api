@@ -11,6 +11,7 @@ import { authMiddleware } from "../middlewares/auth.middleware";
 const router = Router();
 
 router.use(authMiddleware);
+
 router.route("/create").post(createTask);
 router.route("/get").get(getAllTask);
 router.route("/get/:id").get(getTask);

@@ -48,3 +48,5 @@ app.use(errorMiddleware);
 app.listen(process.env.PORT, () => {
   console.log("server Starting at port 8000");
 });
+
+export default app;

@@ -9,7 +9,7 @@ async function createUser(username: string, email: string, password: string) {
   });
 
   if (userExists) {
-    throw new AppError("User already exists", 400);
+    throw new AppError("User already exists", 409);
   }
 
   const createdUser = await prisma.user.create({

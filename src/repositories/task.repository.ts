@@ -89,8 +89,8 @@ export async function updateTask(taskId: string, userId: string, data: Task) {
       userId: userId,
     },
     data: {
-      title,
-      description,
+      title: title?.length === 0 ? task.title : title,
+      description: description?.length === 0 ? task.description : description,
       status,
     },
   });
