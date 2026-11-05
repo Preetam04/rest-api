@@ -9,8 +9,13 @@ import authRouter from "./routes/auth.routes";
 import taskRouter from "./routes/task.routes";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { PrismaSessionStore } from "./utils/session-store";
+import { createClient } from "redis";
 
 const app = express();
+
+export const redis = createClient();
+
+redis.on("error", (err) => console.error("Redis error:", err));
 
 app.use(
   cors({
@@ -45,7 +50,9 @@ app.use(`${route}/task`, taskRouter);
 
 app.use(errorMiddleware);
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, async () => {
+  await redis.connect();
+
   console.log("server Starting at port 8000");
 });
 
