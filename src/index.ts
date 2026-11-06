@@ -10,6 +10,7 @@ import taskRouter from "./routes/task.routes";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { PrismaSessionStore } from "./utils/session-store";
 import { createClient } from "redis";
+import RedisSessionStore from "./utils/redis-session-store";
 
 const app = express();
 
@@ -29,7 +30,7 @@ app.use(cookieParser());
 
 app.use(
   session({
-    store: new PrismaSessionStore(),
+    store: new RedisSessionStore(),
     name: "sid", // cookie name
     secret: process.env.SESSION_SECRET || "change-me-in-production",
     resave: false, // don't save unchanged sessions
